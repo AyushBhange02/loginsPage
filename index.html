@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0c0c0c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            filter: blur(150px);
+            animation: backgroundAnimation 15s ease infinite;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(180deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-container h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+        }
+
+        p {
+            color: #fa0404;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 1.5rem;
+            }
+
+            .login-container h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+
+    <div class="login-container">
+        <h2>Welcome Back</h2>
+        <form onsubmit="return false;">
+            <div class="input-group">
+                <input type="text" placeholder="Username" id="username" required>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="Password" id="password" required>
+            </div>
+            <button type="submit" class="login-btn" id="login-btn" onclick="login()">Login</button>
+            <p id="login-attempts"></p>
+        </form>
+    </div>
+
+    <script>
+        function storeCounter(value) {
+            localStorage.setItem("counter", value);
+        }
+
+        function getCounter() {
+            return localStorage.getItem("counter")
+                ? localStorage.getItem("counter")
+                : 0;
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            let counter = getCounter();
+            if (counter >= 4) {
+                alert("You have reached the maximum number of attempts. Please try again later.");
+
+                document.getElementById('login-btn').hidden = true;
+                document.getElementById('login-attempts').innerHTML = "You have reached the maximum number of attempts. Please try again";
+            }
+            else {
+                if (username === 'admin' && password === '1') {
+                    alert('Login successful!');
+                    window.location.href = "hotel-menu.html";
+                }
+                else {
+                    counter++;
+                    storeCounter(counter);
+                    alert(`Invalid username or password ${3 - counter} attempts remaining`);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
